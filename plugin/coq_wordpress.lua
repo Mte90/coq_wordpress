@@ -37,11 +37,11 @@ COQsources["wordpress"] = {
     local line = vim.api.nvim_get_current_line():sub(0,col)
     -- To check the code right now written and pass specific parameters
     local hook_type = ''
-    if string.find(line, 'add_action') or string.find(line, 'remove_action') then
+    if string.find(line, 'add_action%(') or string.find(line, 'remove_action%(') then
         hook_type = 'action'
         hooks = wp_actions.hooks
     end
-    if string.find(line, 'add_filter') or string.find(line, 'remove_filter') then
+    if string.find(line, 'add_filter%(') or string.find(line, 'remove_filter%(') then
         hook_type = 'filter'
         hooks = wp_filters.hooks
     end

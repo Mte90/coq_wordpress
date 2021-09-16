@@ -2,11 +2,7 @@ COQsources = COQsources or {}
 
 local function expanduser(path)
     if path:sub(1, 1) == '~' then
-        local home = os.getenv('HOME')
-        if not home then -- has to be Windows
-            home = os.getenv 'USERPROFILE' or (os.getenv 'HOMEDRIVE' .. os.getenv 'HOMEPATH')
-        end
-        return home .. path:sub(2)
+        return vim.api.nvim_call_function('fnamemodify', {fname, ':p'}) .. path:sub(2)
     else
         return path
     end

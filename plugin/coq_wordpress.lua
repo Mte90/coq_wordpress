@@ -2,7 +2,7 @@ COQsources = COQsources or {}
 
 local function expanduser(path)
     if path:sub(1, 1) == '~' then
-        return vim.api.nvim_call_function('fnamemodify', {fname, ':p'}) .. path:sub(2)
+        return vim.fn.fnamemodify('.', ':p') .. path:sub(2)
     else
         return path
     end

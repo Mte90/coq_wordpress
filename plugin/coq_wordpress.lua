@@ -62,9 +62,13 @@ COQsources["wordpress"] = {
         end
     end
 
-    callback {
-        isIncomplete = true,
-        items = items
-    }
+    if (vim.bo.filetype == "php") then
+        callback {
+            isIncomplete = true,
+            items = items
+        }
+    else
+        callback(nil)
+    end
   end
 }

@@ -26,6 +26,10 @@ local wp_actions = read_JSON_file("filters")
 COQsources["wordpress"] = {
   name = "WP Hooks",
   fn = function (args, callback)
+    if (vim.bo.filetype ~= "php") then
+        callback(nil)
+    end
+
     local items = {}
     local hooks = {}
     -- To get the actual code written
@@ -62,13 +66,9 @@ COQsources["wordpress"] = {
         end
     end
 
-    if (vim.bo.filetype == "php") then
-        callback {
-            isIncomplete = true,
-            items = items
-        }
-    else
-        callback(nil)
-    end
+    callback {
+        isIncomplete = true,
+        items = items
+    }
   end
 }

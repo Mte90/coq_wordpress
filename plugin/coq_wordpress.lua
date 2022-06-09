@@ -1,23 +1,23 @@
 COQsources = COQsources or {}
 
-local function expanduser(path)
-    if path:sub(1, 1) == '~' then
-        return vim.fn.fnamemodify('.', ':p') .. path:sub(2)
-    else
-        return path
-    end
+local plugin_path = function()
+  local str = debug.getinfo(2, "S").source:sub(2)
+  str = str:gsub("/plugin/coq_wordpress.lua",'/wp-hooks/')
+
+  return str
 end
 
 read_JSON_file = function(type)
-    local file = io.open(expanduser("~/.vim/plugged/coq_wordpress/wp-hooks/" .. type .. ".json"), "r")
+    local path = plugin_path()  .. type .. ".json"
+    local file = io.open(path, "r")
     if file then
         local content = file:read("*a")
         io.close(file)
         return vim.fn.json_decode(content)
     else
-        print("File doesn't exists, you need to run ./install.sh on the coq_wordpress folder.")
+        print("File " .. path .. " doesn't exists, you need to run ./install.sh on the coq_wordpress folder.")
+        return vim.fn.json_decode('{"hooks": []}')
     end
-    return vim.fn.json_decode({})
 end
 
 local wp_filters = read_JSON_file("actions")
